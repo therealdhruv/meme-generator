@@ -1,15 +1,33 @@
-import React from "react";
+import React,{ useState } from "react";
 import MemesData from "./MemesData";
 
 export default function Meme() {
 
+
+    const [memeImage, setMemeImage] = useState (
+        {
+            topText : "",
+            bottomText : "",
+            randomImage : "http://i.imgflip.com/1bij.jpg"
+        }
+    );   
+
+    const [allMemeImages, setAllMemeImages] = useState (MemesData);
+    
+    
     // Defining the `getMemeImage`
     function getMemeImage() {
         const memesArray = MemesData.data.memes;
         const randomNumber = Math.floor (Math.random() * memesArray.length);
         // `a` will have the random Uniform Resource Locator
         const a = memesArray[randomNumber].url;
-        alert(`${a}`);
+        setMemeImage(prevMeme => (
+                {
+                ...prevMeme,
+                randomImage : a
+                }
+            )
+        );    
     }
 
 
@@ -33,6 +51,7 @@ export default function Meme() {
                     Get a new meme image 🖼
                 </button>
             </div>
+                <img src = {memeImage.randomImage} className = "meme--image" />
         </main>
     );
 }
